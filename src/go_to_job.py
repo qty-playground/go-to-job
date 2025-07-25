@@ -20,26 +20,69 @@ class GoToJobTool:
         self.work_dir = Path(work_dir) if work_dir else Path.home() / "temp"
     
     def list_projects(self) -> List[ProjectInfo]:
-        """List all available projects in work directory."""
-        projects = []
+        """Scan work directory and return all available project information.
+        
+        Returns:
+            List of ProjectInfo objects sorted alphabetically by project name.
+            Returns empty list if work directory doesn't exist.
+        """
+        discovered_project_list: List[ProjectInfo] = []
         
         if not self.work_dir.exists():
-            return projects
+            return discovered_project_list
         
-        # Scan for directories in work_dir
-        for item in self.work_dir.iterdir():
-            if item.is_dir() and not item.name.startswith('.'):
-                # Check if has virtual environment
-                has_venv = (item / 'venv').exists() or (item / '.venv').exists()
-                
-                project_info = ProjectInfo(
-                    name=item.name,
-                    path=item,
-                    has_venv=has_venv
+        for potential_project_directory in self.work_dir.iterdir():
+            if self._is_valid_project_directory(potential_project_directory):
+                project_with_environment_info = self._create_project_info_with_virtual_environment_detection(
+                    potential_project_directory
                 )
-                projects.append(project_info)
+                discovered_project_list.append(project_with_environment_info)
         
-        return sorted(projects, key=lambda p: p.name)
+        return sorted(discovered_project_list, key=lambda project: project.name)
+    
+    def _is_valid_project_directory(self, directory_path: Path) -> bool:
+        """Determine if directory path represents a valid project directory.
+        
+        Args:
+            directory_path: Path to examine for project directory validity
+            
+        Returns:
+            True if directory is valid project directory, False otherwise
+        """
+        return directory_path.is_dir() and not directory_path.name.startswith('.')
+    
+    def _create_project_info_with_virtual_environment_detection(self, project_directory_path: Path) -> ProjectInfo:
+        """Create ProjectInfo object with virtual environment detection for given project path.
+        
+        Args:
+            project_directory_path: Path to project directory to analyze
+            
+        Returns:
+            ProjectInfo object containing project details and virtual environment status
+        """
+        virtual_environment_detected = self._detect_virtual_environment_in_project_directory(
+            project_directory_path
+        )
+        
+        return ProjectInfo(
+            name=project_directory_path.name,
+            path=project_directory_path,
+            has_venv=virtual_environment_detected
+        )
+    
+    def _detect_virtual_environment_in_project_directory(self, project_directory_path: Path) -> bool:
+        """Detect presence of virtual environment in project directory.
+        
+        Args:
+            project_directory_path: Path to project directory to examine
+            
+        Returns:
+            True if virtual environment detected, False otherwise
+        """
+        standard_venv_directory = project_directory_path / 'venv'
+        hidden_venv_directory = project_directory_path / '.venv'
+        
+        return standard_venv_directory.exists() or hidden_venv_directory.exists()
     
     def navigate_to_project(self, project_name: str) -> bool:
         """Navigate to specified project directory."""
