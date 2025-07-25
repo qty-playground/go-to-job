@@ -14,16 +14,16 @@ setup(
     ],
     extras_require={
         "test": [
-            "pytest>=7.0.0",
-            "pytest-asyncio>=0.21.0",
-            "pytest-bdd>=6.0.0",
+            "pytest==8.4.1",
+            "pytest-asyncio==1.1.0",
+            "pytest-bdd==8.1.0",
         ],
         "dev": [
-            "pytest>=7.0.0",
-            "pytest-asyncio>=0.21.0",
-            "pytest-bdd>=6.0.0",
-            "black>=22.0.0",
-            "flake8>=4.0.0",
+            "pytest==8.4.1",
+            "pytest-asyncio==1.1.0",
+            "pytest-bdd==8.1.0",
+            "black==25.1.0",
+            "flake8==7.3.0",
         ],
     },
     entry_points={
