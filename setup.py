@@ -8,6 +8,7 @@ setup(
     author_email="developer@example.com",
     packages=find_packages(where="src"),
     package_dir={"": "src"},
+    py_modules=["go_to_job", "go_to_job_cli"],
     python_requires=">=3.8",
     install_requires=[
         # Core dependencies for go-to-job functionality
