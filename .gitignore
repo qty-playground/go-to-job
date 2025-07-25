@@ -1,0 +1,70 @@
+# IDE
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Testing
+.coverage
+.pytest_cache/
+.tox/
+.nox/
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+htmlcov/
+cucumber_report.json
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Go-to-job specific
+.go-to-job.conf          # User's personal config file
+demo-project-*/          # Demo projects created during testing
+test-workspace/          # Test workspace directories
+
+# BDD/pytest specific
+cucumber.json            # Cucumber JSON reports
+reports/                 # Test report directories
+
+# Virtual environment variations
+.venv/                   # Alternative venv name
+project-env/             # Project-specific env names
